@@ -52,6 +52,7 @@
     $(".gallery-item").on("click", function() {
       if (options.lightBox && $(this).prop("tagName") === "IMG") {
         $.fn.mauGallery.methods.openLightBox($(this), options.lightboxId);
+        
       } else {
         return;
       }
@@ -60,6 +61,7 @@
     $(".gallery").on("click", ".nav-link", $.fn.mauGallery.methods.filterByTag);
     $(".gallery").on("click", ".mg-prev", () =>
       $.fn.mauGallery.methods.prevImage(options.lightboxId)
+      
     );
     $(".gallery").on("click", ".mg-next", () =>
       $.fn.mauGallery.methods.nextImage(options.lightboxId)
@@ -118,15 +120,20 @@
         .find(".lightboxImage")
         .attr("src", element.attr("src"));
       $(`#${lightboxId}`).modal("toggle");
+    
+
     },
     prevImage() {
+      
       let activeImage = null;
       $("img.gallery-item").each(function() {
         if ($(this).attr("src") === $(".lightboxImage").attr("src")) {
           activeImage = $(this);
         }
       });
+      // console.log(activeImage);
       let activeTag = $(".tags-bar span.active-tag").data("images-toggle");
+
       let imagesCollection = [];
       if (activeTag === "all") {
         $(".item-column").each(function() {
@@ -145,6 +152,7 @@
           }
         });
       }
+     
       let index = 0,
         next = null;
 
@@ -153,10 +161,10 @@
           index = i ;
         }
       });
-      next =
-        imagesCollection[index] ||
-        imagesCollection[imagesCollection.length - 1];
-      $(".lightboxImage").attr("src", $(next).attr("src"));
+    
+      next = imagesCollection[index - 1] || imagesCollection[imagesCollection.length - 1];
+      
+        $(".lightboxImage").attr("src", $(next).attr("src"));
     },
     nextImage() {
       let activeImage = null;
@@ -192,7 +200,7 @@
           index = i;
         }
       });
-      next = imagesCollection[index] || imagesCollection[0];
+      next = imagesCollection[index+1] || imagesCollection[0];
       $(".lightboxImage").attr("src", $(next).attr("src"));
     },
     createLightBox(gallery, lightboxId, navigation) {
@@ -240,7 +248,7 @@
         return;
       }
       $(".active-tag").removeClass("active active-tag");
-      $(this).addClass("active-tag");
+      $(this).addClass("active active-tag");
 
       var tag = $(this).data("images-toggle");
 
@@ -260,4 +268,7 @@
       });
     }
   };
+
+
+
 })(jQuery);
